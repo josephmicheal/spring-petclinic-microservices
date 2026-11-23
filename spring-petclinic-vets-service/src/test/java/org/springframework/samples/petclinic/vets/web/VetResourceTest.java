@@ -57,4 +57,17 @@ class VetResourceTest {
             .andExpect(status().isOk())
             .andExpect(jsonPath("$[0].id").value(1));
     }
+
+    @Test
+    void shouldGetAListOfVetNames() throws Exception {
+        Vet vet = new Vet();
+        vet.setFirstName("James");
+        vet.setLastName("Carter");
+
+        given(vetRepository.findAll()).willReturn(List.of(vet));
+
+        mvc.perform(get("/vets/names").accept(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0]").value("James Carter"));
+    }
 }

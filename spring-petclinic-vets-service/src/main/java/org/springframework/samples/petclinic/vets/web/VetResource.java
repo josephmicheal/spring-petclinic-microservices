@@ -46,4 +46,12 @@ class VetResource {
     public List<Vet> showResourcesVetList() {
         return vetRepository.findAll();
     }
+
+    @GetMapping("/names")
+    @Cacheable("vetNames")
+    public List<String> showVetNames() {
+        return vetRepository.findAll().stream()
+            .map(vet -> vet.getFirstName() + " " + vet.getLastName())
+            .toList();
+    }
 }
